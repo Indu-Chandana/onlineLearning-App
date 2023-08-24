@@ -18,7 +18,7 @@ import {
     images,
     dummyData
 } from "../../constants"
-import { IconButton, TextButton } from "../../components"
+import { IconButton, TextButton, VerticalCourseCard } from "../../components"
 
 const Home = () => {
 
@@ -121,7 +121,13 @@ const Home = () => {
                     marginTop: SIZES.padding
                 }}
                 renderItem={({ item, index }) => (
-                    <></>
+                    <VerticalCourseCard
+                        containerStyle={{
+                            marginLeft: index == 0 ? SIZES.padding : SIZES.radius, // if is the first item.
+                            marginRight: index == dummyData.courses_list_1.length - 1 ? SIZES.padding : 0 // if it is last one
+                        }}
+                        course={item}
+                    />
                 )}
             />
         )
