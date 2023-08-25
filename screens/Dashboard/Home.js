@@ -18,7 +18,44 @@ import {
     images,
     dummyData
 } from "../../constants"
-import { IconButton, TextButton, VerticalCourseCard } from "../../components"
+import { IconButton, TextButton, VerticalCourseCard, LineDivider, CategoryCard } from "../../components"
+
+// HOC component
+const Section = ({ containerStyle, title, onPress, children }) => {
+    return (
+        <View
+            style={{
+                ...containerStyle
+            }}
+        >
+            <View
+                style={{
+                    flexDirection: 'row',
+                    paddingHorizontal: SIZES.padding,
+
+                }}>
+                <Text style={{
+                    flex: 1,
+                    ...FONTS.h2
+                }}>
+                    {title}
+                </Text>
+
+                <TextButton
+                    contentContainerStyle={{
+                        width: 80,
+                        borderRadius: 30,
+                        backgroundColor: COLORS.primary
+                    }}
+                    label="See All"
+                    onPress={onPress}
+                />
+            </View>
+
+            {children}
+        </View>
+    )
+}
 
 const Home = () => {
 
@@ -132,6 +169,33 @@ const Home = () => {
             />
         )
     }
+    function renderCategories() {
+        return (
+            <Section
+                title='Categories'>
+                <FlatList
+                    horizontal
+                    data={dummyData.categories}
+                    listKey="Categories"
+                    keyExtractor={item => `Categories-${item.id}`}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{
+                        marginTop: SIZES.radius
+                    }}
+                    renderItem={({ item, index }) => (
+                        // console.log('item::', item.title)
+                        <CategoryCard
+                            category={item}
+                            containerStyle={{
+                                marginLeft: index == 0 ? SIZES.padding : SIZES.base, // if it is first val 
+                                marginRight: index == dummyData.categories.length - 1 ? SIZES.padding : 0 // if it is last val
+                            }}
+                        />
+                    )}
+                />
+            </Section>
+        )
+    }
 
     return (
         <GestureHandlerRootView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -150,6 +214,15 @@ const Home = () => {
 
                 {/* Courses */}
                 {renderCourses()}
+
+                <LineDivider
+                    lineStyle={{
+                        marginVertical: SIZES.padding
+                    }}
+                />
+
+                {/* Categories */}
+                {renderCategories()}
             </ScrollView>
         </GestureHandlerRootView>
 
