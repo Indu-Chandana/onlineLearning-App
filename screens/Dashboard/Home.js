@@ -18,7 +18,7 @@ import {
     images,
     dummyData
 } from "../../constants"
-import { IconButton, TextButton, VerticalCourseCard, LineDivider, CategoryCard } from "../../components"
+import { IconButton, TextButton, VerticalCourseCard, LineDivider, CategoryCard, HorizontalCourseCard } from "../../components"
 
 // HOC component
 const Section = ({ containerStyle, title, onPress, children }) => {
@@ -197,6 +197,44 @@ const Home = () => {
         )
     }
 
+    function renderPopularCourses() {
+        return (
+            <Section
+                title="Pupular Courses"
+                containerStyle={{
+                    marginTop: 30
+                }}
+            >
+                <FlatList
+                    data={dummyData.courses_list_2}
+                    listKey="PopularCourses"
+                    scrollEnabled={false}
+                    keyExtractor={item => `PopularCourses-${item.id}`}
+                    contentContainerStyle={{
+                        marginTop: SIZES.radius,
+                        paddingHorizontal: SIZES.padding
+                    }}
+                    renderItem={({ item, index }) => (
+                        <HorizontalCourseCard
+                            containerStyle={{
+                                marginVertical: SIZES.padding,
+                                marginTop: index == 0 ? SIZES.radius : SIZES.padding,
+                            }}
+                            course={item} />
+                    )}
+                    ItemSeparatorComponent={() => (
+                        <LineDivider
+                            lineStyle={{
+                                backgroundColor: COLORS.gray20
+                            }}
+                        />
+                    )}
+                />
+
+            </Section>
+        )
+    }
+
     return (
         <GestureHandlerRootView style={{ flex: 1, backgroundColor: COLORS.white }}>
             {/* Header */}
@@ -223,6 +261,8 @@ const Home = () => {
 
                 {/* Categories */}
                 {renderCategories()}
+
+                {renderPopularCourses()}
             </ScrollView>
         </GestureHandlerRootView>
 

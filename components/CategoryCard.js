@@ -19,7 +19,14 @@ const CategoryCard = ({ category, containerStyle }) => {
                     ...containerStyle
                 }}
             >
-
+                <Text
+                    style={{
+                        color: COLORS.white,
+                        ...FONTS.h2
+                    }}
+                >
+                    {category?.title}
+                </Text>
             </ImageBackground>
         </TouchableOpacity>
     )
