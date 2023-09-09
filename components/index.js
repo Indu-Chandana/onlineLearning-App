@@ -5,5 +5,6 @@ import IconLabel from "./IconLabel";
 import LineDivider from "./LineDivider"
 import CategoryCard from "./CategoryCard"
 import HorizontalCourseCard from "./HorizontalCourseCard"
+import ProgressBar from './ProgressBar'
 
-export { IconButton, TextButton, VerticalCourseCard, IconLabel, LineDivider, CategoryCard, HorizontalCourseCard }
+export { IconButton, TextButton, VerticalCourseCard, IconLabel, LineDivider, CategoryCard, HorizontalCourseCard, ProgressBar }
