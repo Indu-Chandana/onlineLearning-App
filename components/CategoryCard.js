@@ -15,8 +15,11 @@ const CategoryCard = ({ category, containerStyle }) => {
                     width: 200,
                     paddingVertical: SIZES.padding,
                     paddingHorizontal: SIZES.radius,
-                    justifyContent: 'flex-end',
+                    justifyContent: 'flex-end', // text goes to all the way to down.
                     ...containerStyle
+                }}
+                imageStyle={{
+                    borderRadius: SIZES.radius
                 }}
             >
                 <Text
