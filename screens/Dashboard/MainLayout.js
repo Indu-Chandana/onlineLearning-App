@@ -171,7 +171,7 @@ const MainLayout = () => {
         return (
             <View
                 style={{
-                    marginBottom: 20,
+                    // marginBottom: 20,
                     paddingHorizontal: SIZES.padding,
                     paddingVertical: SIZES.radius,
                 }}

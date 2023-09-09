@@ -135,7 +135,7 @@ const Search = () => {
             <Animated.View
                 style={[{
                     position: 'absolute',
-                    top: 50,
+                    top: 25,
                     left: 0,
                     right: 0,
                     paddingHorizontal: SIZES.padding,
@@ -189,7 +189,7 @@ const Search = () => {
             <Animated.ScrollView
                 ref={scrollViewRef}
                 contentContainerStyle={{
-                    marginTop: 100,
+                    marginTop: 80,
                     paddingBottom: 300,
                 }}
                 showsVerticalScrollIndicator={false}

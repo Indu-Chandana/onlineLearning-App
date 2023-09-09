@@ -13,18 +13,23 @@ import {
     IconButton,
     TextButton,
     LineDivider,
-    ProgressBar
+    ProgressBar,
+    ProfileValue,
+    ProfileRadioButton
 } from "../../components"
 import { COLORS, FONTS, SIZES, icons, images } from "../../constants"
 
 const Profile = () => {
+
+    const [newCourseNotification, setNewCourseNotification] = React.useState(false);
+    const [studyReminder, setStudyReminder] = React.useState(false)
 
     function renderHeader() {
         return (
             <View
                 style={{
                     flexDirection: 'row',
-                    marginTop: 50,
+                    marginTop: 20,
                     paddingHorizontal: SIZES.padding,
                     justifyContent: 'space-between'
                 }}
@@ -182,6 +187,71 @@ const Profile = () => {
         )
     }
 
+    function renderProfileSection1() {
+        return (
+            <View
+                style={styles.profileSectionContainer}
+            >
+                <ProfileValue
+                    icon={icons.profile}
+                    label="Name"
+                    value="Indu Chandana"
+                />
+                <LineDivider />
+                <ProfileValue
+                    icon={icons.email}
+                    label="Email"
+                    value="induchandana@gmail.com"
+                />
+
+                <LineDivider />
+                <ProfileValue
+                    icon={icons.password}
+                    label="Password"
+                    value="updated 2 weeks ago"
+                />
+
+                <LineDivider />
+                <ProfileValue
+                    icon={icons.call}
+                    label="Contact Number"
+                    value="+94772166742"
+                />
+
+
+            </View>
+        )
+    }
+
+    function renderProfileSection2() {
+        return (
+            <View style={styles.profileSectionContainer}>
+                <ProfileValue
+                    icon={icons.star_1}
+                    value="Pages"
+                />
+                <LineDivider />
+                <ProfileRadioButton
+                    icon={icons.new_icon}
+                    label="New Course Notification"
+                    isSelected={newCourseNotification}
+                    onPress={() => {
+                        setNewCourseNotification(!newCourseNotification)
+                    }}
+                />
+                <LineDivider />
+                <ProfileRadioButton
+                    icon={icons.reminder}
+                    label="Study Reminder"
+                    isSelected={studyReminder}
+                    onPress={() => {
+                        setStudyReminder(!studyReminder)
+                    }}
+                />
+            </View>
+        )
+    }
+
     return (
         <View
             style={{
@@ -194,15 +264,30 @@ const Profile = () => {
             <ScrollView
                 contentContainerStyle={{
                     paddingHorizontal: SIZES.padding,
-                    paddingBottom: 150
+                    paddingBottom: 180
                 }}
             >
                 {/* Profile Card */}
                 {renderProfileCard()}
 
+                {/* Profile Section 1 */}
+                {renderProfileSection1()}
+
+                {/* Profile Section 2 */}
+                {renderProfileSection2()}
             </ScrollView>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    profileSectionContainer: {
+        marginTop: SIZES.padding,
+        paddingHorizontal: SIZES.padding,
+        borderWidth: 1,
+        borderRadius: SIZES.radius,
+        borderColor: COLORS.gray20
+    }
+})
 
 export default Profile;
