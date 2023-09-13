@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Image, Animated
 } from 'react-native';
+import { connect } from "react-redux"
 import { Shadow } from "react-native-shadow-2"
 
 import {
@@ -112,7 +113,7 @@ const Tabs = ({ scrollX, onBottomTabPress }) => {
 }
 
 
-const MainLayout = () => {
+const MainLayout = ({ appTheme }) => {
     const flatListRef = React.useRef()
     const scrollX = React.useRef(new Animated.Value(0)).current;
 
@@ -174,12 +175,13 @@ const MainLayout = () => {
                     // marginBottom: 20,
                     paddingHorizontal: SIZES.padding,
                     paddingVertical: SIZES.radius,
+                    backgroundColor: appTheme?.backgroundColor1
                 }}
             >
                 <Shadow>
                     <View style={{
                         width: SIZES.width - (SIZES.padding * 2), height: 85, borderRadius: SIZES.radius,
-                        backgroundColor: COLORS.primary3
+                        backgroundColor: appTheme?.backgroundColor2
                     }}>
                         <Tabs
                             scrollX={scrollX}
@@ -208,4 +210,15 @@ const MainLayout = () => {
     )
 }
 
-export default MainLayout;
+function mapStateToProps(state) {
+    return {
+        appTheme: state.appTheme,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainLayout);
