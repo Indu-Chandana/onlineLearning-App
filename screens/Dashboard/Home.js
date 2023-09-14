@@ -9,6 +9,7 @@ import {
 
 // we need to create horizontal scrolling feature with that
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler"
+import { useNavigation } from "@react-navigation/native"
 
 import {
     COLORS,
@@ -58,6 +59,8 @@ const Section = ({ containerStyle, title, onPress, children }) => {
 }
 
 const Home = () => {
+
+    const navigation = useNavigation();
 
     function renderHeader() {
         return (
@@ -169,6 +172,7 @@ const Home = () => {
             />
         )
     }
+
     function renderCategories() {
         return (
             <Section
@@ -190,6 +194,7 @@ const Home = () => {
                                 marginLeft: index == 0 ? SIZES.padding : SIZES.base, // if it is first val 
                                 marginRight: index == dummyData.categories.length - 1 ? SIZES.padding : 0 // if it is last val
                             }}
+                            onPress={() => navigation.navigate("CourseListing")}
                         />
                     )}
                 />
