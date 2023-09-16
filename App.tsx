@@ -70,6 +70,17 @@ function App() {
             name='CourseListing'
             component={CourseListing}
             options={() => options} // use for navigation animations of CourseListiing
+            sharedElements={(route, otherRoute, showing) => {
+              const { category, sharedElementPrefix } = route.params;
+              return [
+                {
+                  id: `${sharedElementPrefix}-CategoryCard-Bg-${category?.id}`
+                },
+                {
+                  id: `${sharedElementPrefix}-CategoryCard-Title-${category?.id}`
+                }
+              ];
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
