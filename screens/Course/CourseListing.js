@@ -1,5 +1,5 @@
 import { View, Text, Image, FlatList, StyleSheet, } from 'react-native'
-import React from 'react'
+import React, { useRef } from 'react'
 
 import Animated, {
     Extrapolate,
@@ -27,10 +27,19 @@ import {
     dummyData
 } from "../../constants"
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+
+const HEADER_HEIGHT = 250;
 
 const CourseListing = ({ navigation, route }) => {
 
     const { category, sharedElementPrefix } = route.params;
+
+    const flatListRef = useRef()
+    const scrollY = useSharedValue(0)
+    const onScroll = useAnimatedScrollHandler((event) => {
+        scrollY.value = event.contentOffset.y;
+    })
 
     // 'react-native-reanimated' used
     const headerSharedValue = useSharedValue(80);
@@ -41,6 +50,8 @@ const CourseListing = ({ navigation, route }) => {
     }
 
     function renderHeader() {
+
+        const inputRange = [0, HEADER_HEIGHT - 50] // for scroll height changes in header. 
 
         headerSharedValue.value = withDelay(500, withTiming(0, { duration: 500 }))
 
@@ -63,16 +74,35 @@ const CourseListing = ({ navigation, route }) => {
             }
         })
 
+        // header height changes
+        const headerHeightAnimatedStyle = useAnimatedStyle(() => {
+            return {
+                height: interpolate(scrollY.value, inputRange, [HEADER_HEIGHT, 120], Extrapolate.CLAMP)
+            }
+        })
+
+        // when scroll, we hide the image and back icon in the header.
+        const headerHideOnScrollAnimatedStyle = useAnimatedStyle(() => {
+            return {
+                opacity: interpolate(scrollY.value, [80, 0], [0, 1], Extrapolate.CLAMP),
+                transform: [
+                    {
+                        translateY: interpolate(scrollY.value, inputRange, [0, 200], Extrapolate.CLAMP)
+                    }
+                ]
+            }
+        })
+
         return (
             <Animated.View
-                style={{
+                style={[{
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
                     height: 250,
                     overflow: 'hidden'
-                }}
+                }, headerHeightAnimatedStyle]}
             >
                 {/* Background Image */}
                 <SharedElement
@@ -92,11 +122,11 @@ const CourseListing = ({ navigation, route }) => {
 
                 {/* Title */}
                 <Animated.View
-                    style={{
+                    style={[{
                         position: 'absolute',
                         bottom: 70,
                         left: 30
-                    }}
+                    }, headerHideOnScrollAnimatedStyle]}
                 >
                     <SharedElement
                         id={`${sharedElementPrefix}-CategoryCard-Title-${category?.id}`}
@@ -149,9 +179,81 @@ const CourseListing = ({ navigation, route }) => {
                         width: 100,
                         height: 200
                     }, headerFadeAnimatedStyle,
-                        headerTranslateAnimatedStyle]}
+                        headerTranslateAnimatedStyle,
+                        headerHideOnScrollAnimatedStyle]}
                 />
             </Animated.View>
+        )
+    }
+
+    function renderResults() {
+        return (
+            <AnimatedFlatList
+                ref={flatListRef}
+                data={dummyData.courses_list_2}
+                keyExtractor={item => `Results-${item.id}`}
+                contentContainerStyle={{
+                    paddingHorizontal: SIZES.padding
+                }}
+                showsHorizontalScrollIndicator={false}
+                scrollEventThrottle={16}
+                keyboardDismissMode="on-drag"
+                onScroll={onScroll}
+                ListHeaderComponent={
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginTop: 270,
+                            marginBottom: SIZES.base
+                        }}
+                    >
+                        {/* Results */}
+                        <Text
+                            style={{
+                                flex: 1,
+                                ...FONTS.body3
+                            }}
+                        >
+                            5,761 Results
+                        </Text>
+
+                        {/* Filter Button */}
+                        <IconButton
+                            icon={icons.filter}
+                            iconStyle={{
+                                width: 20,
+                                height: 20
+                            }}
+                            containerStyle={{
+                                width: 40,
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 10,
+                                backgroundColor: COLORS.primary
+                            }}
+                        />
+                    </View>
+                }
+
+                renderItem={({ item, index }) => (
+                    <HorizontalCourseCard
+                        course={item}
+                        containerStyle={{
+                            marginVertical: SIZES.padding,
+                            marginTop: index == 0 ? SIZES.radius : SIZES.padding
+                        }}
+                    />
+                )}
+                ItemSeparatorComponent={() => (
+                    <LineDivider
+                        lineStyle={{
+                            backgroundColor: COLORS.gray20
+                        }}
+                    />
+                )}
+            />
         )
     }
 
@@ -161,6 +263,9 @@ const CourseListing = ({ navigation, route }) => {
                 flex: 1,
                 backgroundColor: COLORS.white
             }}>
+            {/* Results */}
+            {renderResults()}
+
             {/* Render Header */}
             {renderHeader()}
         </View>
