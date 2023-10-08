@@ -93,6 +93,18 @@ const CourseListing = ({ navigation, route }) => {
             }
         })
 
+        // when user scrolling in the list header title comes from the top.
+        const headerShowOnScrollAnimatedStyle = useAnimatedStyle(() => {
+            return {
+                opacity: interpolate(scrollY.value, [80, 0], [1, 0], Extrapolate.CLAMP),
+                transform: [
+                    {
+                        translateY: interpolate(scrollY.value, inputRange, [50, 130], Extrapolate.CLAMP)
+                    }
+                ]
+            }
+        })
+
         return (
             <Animated.View
                 style={[{
@@ -121,6 +133,27 @@ const CourseListing = ({ navigation, route }) => {
                 </SharedElement>
 
                 {/* Title */}
+                {/* DEFAULT, This Title is hidden (-80). when user scroll Title comes from the top.  */}
+                <Animated.View
+                    style={[{
+                        position: 'absolute',
+                        top: -80,
+                        left: 0,
+                        right: 0
+                    }, headerShowOnScrollAnimatedStyle]}
+                >
+                    <Text
+                        style={{
+                            textAlign: 'center',
+                            color: COLORS.white,
+                            ...FONTS.h2
+                        }}
+                    >
+                        {category?.title}
+                    </Text>
+                </Animated.View>
+                {/* ----------------------------------------------------------------------------------- */}
+
                 <Animated.View
                     style={[{
                         position: 'absolute',
@@ -163,7 +196,25 @@ const CourseListing = ({ navigation, route }) => {
                             backgroundColor: COLORS.white
                         }}
                         onPress={() => {
-                            backHandler()
+
+                            if (scrollY.value > 0 && scrollY.value <= 200) {// when user click on back btn and It was bit scrolled we get it to normal and back.
+                                flatListRef.current?.scrollToOffset({
+                                    offset: 0,
+                                    animated: true
+                                })
+
+                                // When we click back btn, we need to reverce animation (phone go down and back btn fade out)
+                                setTimeout(() => {
+                                    headerSharedValue.value = withTiming(80, {
+                                        duration: 500
+                                    }, () => {
+                                        runOnJS(backHandler)();
+                                    })
+                                }, 100)
+
+                            } else { // when user srolled and header minimized.
+                                backHandler()
+                            }
                         }}
                     />
                 </Animated.View>
