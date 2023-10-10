@@ -55,7 +55,7 @@ const CourseListing = ({ navigation, route }) => {
 
         headerSharedValue.value = withDelay(500, withTiming(0, { duration: 500 }))
 
-        // how we fade back Icon and 4nImage 
+        // how we fade back Icon and 4nImage - when come to screen
         const headerFadeAnimatedStyle = useAnimatedStyle(() => {
             return {
                 opacity: interpolate(headerSharedValue.value,
