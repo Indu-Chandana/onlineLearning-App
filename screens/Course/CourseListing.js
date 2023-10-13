@@ -16,7 +16,8 @@ import { SharedElement } from 'react-navigation-shared-element'
 import {
     IconButton,
     HorizontalCourseCard,
-    LineDivider
+    LineDivider,
+    FilterModal
 } from "../../components"
 import {
     COLORS,
@@ -43,6 +44,8 @@ const CourseListing = ({ navigation, route }) => {
 
     // 'react-native-reanimated' used
     const headerSharedValue = useSharedValue(80);
+    const filterModalSharedValue1 = useSharedValue(SIZES.height)
+    const filterModalSharedValue2 = useSharedValue(SIZES.height)
 
     // Back Handler
     function backHandler() {
@@ -284,6 +287,15 @@ const CourseListing = ({ navigation, route }) => {
                                 borderRadius: 10,
                                 backgroundColor: COLORS.primary
                             }}
+                            onPress={() => {
+                                filterModalSharedValue1.value = withTiming(0, {
+                                    duration: 100
+                                }) // this one takes -> duration: 100 
+                                filterModalSharedValue2.value = withDelay(100, // we need to wait 100, thats why we use \withDelay(100\
+                                    withTiming(0, {
+                                        duration: 500
+                                    }))
+                            }}
                         />
                     </View>
                 }
@@ -319,6 +331,12 @@ const CourseListing = ({ navigation, route }) => {
 
             {/* Render Header */}
             {renderHeader()}
+
+            {/* Filter Modal */}
+            <FilterModal
+                filterModalSharedValue1={filterModalSharedValue1}
+                filterModalSharedValue2={filterModalSharedValue2}
+            />
         </View>
     )
 }
