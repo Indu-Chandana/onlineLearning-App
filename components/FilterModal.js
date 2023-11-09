@@ -52,6 +52,36 @@ const ClassTypeOption = ({
     )
 }
 
+const ClassLevelOption = ({ containerStyle, classLevel, isLastItem, isSelected, onPress }) => {
+    return (
+        <>
+            <TouchableOpacity style={{
+                flexDirection: 'row',
+                height: 50,
+                alignItems: 'center',
+                ...containerStyle
+            }}
+                onPress={onPress}
+            >
+                <Text style={{ flex: 1, ...FONTS.body3 }}>
+                    {classLevel.label}
+                </Text>
+
+                <Image
+                    source={isSelected ? icons.checkbox_on : icons.checkbox_off}
+                    resizeMode='contain'
+                    style={{
+                        width: 20, height: 20
+                    }}
+                />
+            </TouchableOpacity>
+
+            {!isLastItem && <LineDivider lineStyle={{ height: 1 }} />}
+        </>
+
+    )
+}
+
 const FilterModal = ({
     filterModalSharedValue1,
     filterModalSharedValue2
@@ -76,12 +106,14 @@ const FilterModal = ({
         }
     })
 
+    // fade the background container
     const filterModalBgAnimatedStyle = useAnimatedStyle(() => {
         return {
             opacity: interpolate(filterModalSharedValue2.value, [SIZES.height, 0], [0, 1])
         }
     })
 
+    // Content Container sideup from the bottom
     const filterModalContentAnimatedStyle = useAnimatedStyle(() => {
         return {
             opacity: interpolate(filterModalSharedValue2.value, [SIZES.height, 0], [0, 1]),
@@ -196,6 +228,34 @@ const FilterModal = ({
                                             }}
                                             onPress={() => {
                                                 setSelectedClassType(item?.id)
+                                            }}
+                                        />
+                                    )
+                                })}
+                            </View>
+                        </View>
+
+                        {/* Class Level */}
+                        <View
+                            style={{
+                                marginTop: SIZES.padding
+                            }}
+                        >
+
+                            <Text style={{ ...FONTS.h3 }}>
+                                Class Level
+                            </Text>
+
+                            <View>
+                                {constants.class_levels.map((item, index) => {
+                                    return (
+                                        <ClassLevelOption
+                                            key={`ClassType-${index}`}
+                                            classLevel={item}
+                                            isLastItem={index == constants.class_levels.length - 1}
+                                            isSelected={selectedClassLevel == item.id}
+                                            onPress={() => {
+                                                setSelectedClassLevel(item.id)
                                             }}
                                         />
                                     )
