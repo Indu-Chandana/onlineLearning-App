@@ -8,7 +8,7 @@ import Animated, {
     withTiming
 } from 'react-native-reanimated'
 
-import { TextButton, LineDivider } from "../components"
+import { TextButton, LineDivider, TwoPointSlider } from "../components"
 import { COLORS, FONTS, SIZES, icons, constants } from "../constants"
 
 const ClassTypeOption = ({
@@ -125,6 +125,52 @@ const FilterModal = ({
 
         }
     })
+
+
+    function renderFooter() {
+        return (
+            <View
+
+                style={{
+                    flexDirection: 'row',
+                    height: 50,
+                    marginBottom: 30,
+                    paddingHorizontal: SIZES.padding
+                }}>
+                {/* Reset */}
+                <TextButton
+                    label="Reset"
+                    contentContainerStyle={{
+                        flex: 1,
+                        borderRadius: SIZES.radius,
+                        borderWidth: 1,
+                        backgroundColor: null
+                    }}
+                    labelStyle={{
+                        color: COLORS.black,
+                        ...FONTS.h3
+                    }}
+                />
+
+                {/* Apply */}
+                <TextButton
+                    label="Apply"
+                    contentContainerStyle={{
+                        flex: 1,
+                        marginLeft: SIZES.radius,
+                        borderRadius: SIZES.radius,
+                        borderWidth: 2,
+                        borderColor: COLORS.primary,
+                        backgroundColor: COLORS.primary
+                    }}
+                    labelStyle={{
+                        color: COLORS.white,
+                        ...FONTS.h3
+                    }}
+                />
+            </View>
+        )
+    }
 
     return (
         // Main Container
@@ -294,9 +340,28 @@ const FilterModal = ({
                             {/* Class Length */}
                             <View style={{ marginTop: SIZES.padding }}>
                                 <Text style={{ ...FONTS.h3 }}>Created Within</Text>
+
+                                <View
+                                    style={{
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                    <TwoPointSlider
+                                        value={[20, 50]}
+                                        min={15}
+                                        max={60}
+                                        // prefix='indu'
+                                        postfix="min"
+                                        onValuesChange={(values) => console.log('onValuesCahnge', values)}
+                                    />
+                                </View>
                             </View>
                         </View>
                     </ScrollView>
+
+                    {/* Footer */}
+
+                    {renderFooter()}
                 </Animated.View>
             </Animated.View>
 
