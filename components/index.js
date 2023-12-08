@@ -9,6 +9,11 @@ import ProgressBar from './ProgressBar'
 import ProfileValue from './ProfileValue'
 import ProfileRadioButton from './ProfileRadioButton'
 import FilterModal from './FilterModal'
+import TwoPointSlider from "./TwoPointSlider";
 
 
-export { FilterModal, IconButton, TextButton, VerticalCourseCard, IconLabel, LineDivider, CategoryCard, HorizontalCourseCard, ProgressBar, ProfileValue, ProfileRadioButton }
+export {
+    FilterModal, IconButton, TextButton, VerticalCourseCard,
+    IconLabel, LineDivider, CategoryCard, HorizontalCourseCard, ProgressBar,
+    ProfileValue, ProfileRadioButton, TwoPointSlider
+}

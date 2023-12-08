@@ -8,7 +8,7 @@ import Animated, {
     withTiming
 } from 'react-native-reanimated'
 
-import { TextButton, LineDivider } from "../components"
+import { TextButton, LineDivider, TwoPointSlider } from "../components"
 import { COLORS, FONTS, SIZES, icons, constants } from "../constants"
 
 const ClassTypeOption = ({
@@ -52,6 +52,36 @@ const ClassTypeOption = ({
     )
 }
 
+const ClassLevelOption = ({ containerStyle, classLevel, isLastItem, isSelected, onPress }) => {
+    return (
+        <>
+            <TouchableOpacity style={{
+                flexDirection: 'row',
+                height: 50,
+                alignItems: 'center',
+                ...containerStyle
+            }}
+                onPress={onPress}
+            >
+                <Text style={{ flex: 1, ...FONTS.body3 }}>
+                    {classLevel.label}
+                </Text>
+
+                <Image
+                    source={isSelected ? icons.checkbox_on : icons.checkbox_off}
+                    resizeMode='contain'
+                    style={{
+                        width: 20, height: 20
+                    }}
+                />
+            </TouchableOpacity>
+
+            {!isLastItem && <LineDivider lineStyle={{ height: 1 }} />}
+        </>
+
+    )
+}
+
 const FilterModal = ({
     filterModalSharedValue1,
     filterModalSharedValue2
@@ -76,12 +106,14 @@ const FilterModal = ({
         }
     })
 
+    // fade the background container
     const filterModalBgAnimatedStyle = useAnimatedStyle(() => {
         return {
             opacity: interpolate(filterModalSharedValue2.value, [SIZES.height, 0], [0, 1])
         }
     })
 
+    // Content Container sideup from the bottom
     const filterModalContentAnimatedStyle = useAnimatedStyle(() => {
         return {
             opacity: interpolate(filterModalSharedValue2.value, [SIZES.height, 0], [0, 1]),
@@ -93,6 +125,52 @@ const FilterModal = ({
 
         }
     })
+
+
+    function renderFooter() {
+        return (
+            <View
+
+                style={{
+                    flexDirection: 'row',
+                    height: 50,
+                    marginBottom: 30,
+                    paddingHorizontal: SIZES.padding
+                }}>
+                {/* Reset */}
+                <TextButton
+                    label="Reset"
+                    contentContainerStyle={{
+                        flex: 1,
+                        borderRadius: SIZES.radius,
+                        borderWidth: 1,
+                        backgroundColor: null
+                    }}
+                    labelStyle={{
+                        color: COLORS.black,
+                        ...FONTS.h3
+                    }}
+                />
+
+                {/* Apply */}
+                <TextButton
+                    label="Apply"
+                    contentContainerStyle={{
+                        flex: 1,
+                        marginLeft: SIZES.radius,
+                        borderRadius: SIZES.radius,
+                        borderWidth: 2,
+                        borderColor: COLORS.primary,
+                        backgroundColor: COLORS.primary
+                    }}
+                    labelStyle={{
+                        color: COLORS.white,
+                        ...FONTS.h3
+                    }}
+                />
+            </View>
+        )
+    }
 
     return (
         // Main Container
@@ -202,7 +280,88 @@ const FilterModal = ({
                                 })}
                             </View>
                         </View>
+
+                        {/* Class Level */}
+                        <View
+                            style={{
+                                marginTop: SIZES.padding
+                            }}
+                        >
+
+                            <Text style={{ ...FONTS.h3 }}>
+                                Class Level
+                            </Text>
+
+                            <View>
+                                {constants.class_levels.map((item, index) => {
+                                    return (
+                                        <ClassLevelOption
+                                            key={`ClassType-${index}`}
+                                            classLevel={item}
+                                            isLastItem={index == constants.class_levels.length - 1}
+                                            isSelected={selectedClassLevel == item.id}
+                                            onPress={() => {
+                                                setSelectedClassLevel(item.id)
+                                            }}
+                                        />
+                                    )
+                                })}
+                            </View>
+
+                            {/* Created Within */}
+                            <View style={{ marginTop: SIZES.radius }}>
+                                <Text style={{ ...FONTS.h3 }}>Created Within</Text>
+                                <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+                                    {constants.created_within.map((item, index) => {
+                                        return (
+                                            <TextButton
+                                                key={`CreatedWithin-${index}`} label={item?.label}
+                                                contentContainerStyle={{
+                                                    height: 45,
+                                                    paddingHorizontal: SIZES.radius,
+                                                    marginLeft: index % 3 == 0 ? 0 : SIZES.radius,
+                                                    marginTop: SIZES.radius,
+                                                    borderWidth: 1,
+                                                    borderRadius: SIZES.radius,
+                                                    borderColor: COLORS.gray20,
+                                                    backgroundColor: item?.id == selectedCreatedWithin ? COLORS.primary3 : null
+                                                }}
+                                                labelStyle={{
+                                                    color: item?.id == selectedCreatedWithin ? COLORS.white : COLORS.black,
+                                                    ...FONTS.body3
+                                                }}
+                                                onPress={() => { setSelectedCreatedWithin(item.id) }}
+                                            />
+                                        )
+                                    })}
+                                </View>
+                            </View>
+
+                            {/* Class Length */}
+                            <View style={{ marginTop: SIZES.padding }}>
+                                <Text style={{ ...FONTS.h3 }}>Created Within</Text>
+
+                                <View
+                                    style={{
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                    <TwoPointSlider
+                                        value={[20, 50]}
+                                        min={15}
+                                        max={60}
+                                        // prefix='indu'
+                                        postfix="min"
+                                        onValuesChange={(values) => console.log('onValuesCahnge', values)}
+                                    />
+                                </View>
+                            </View>
+                        </View>
                     </ScrollView>
+
+                    {/* Footer */}
+
+                    {renderFooter()}
                 </Animated.View>
             </Animated.View>
 
