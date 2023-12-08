@@ -6,11 +6,13 @@ import MainLayout from "./Dashboard/MainLayout"
 
 // Course
 import CourseListing from "./Course/CourseListing"
+import CourseDetails from "./Course/CourseDetails"
 
 export {
     MainLayout,
     Home,
     Profile,
     Search,
-    CourseListing
+    CourseListing,
+    CourseDetails
 }

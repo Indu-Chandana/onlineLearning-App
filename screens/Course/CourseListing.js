@@ -307,6 +307,9 @@ const CourseListing = ({ navigation, route }) => {
                             marginVertical: SIZES.padding,
                             marginTop: index == 0 ? SIZES.radius : SIZES.padding
                         }}
+                        onPress={() => navigation.navigate("CourseDetails", {
+                            selectedCourse: item
+                        })}
                     />
                 )}
                 ItemSeparatorComponent={() => (
