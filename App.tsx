@@ -14,7 +14,8 @@ import themeReducer from './stores/themeReducer';
 
 import {
   MainLayout,
-  CourseListing
+  CourseListing,
+  CourseDetails
 } from "./screens";
 
 function HomeScreen() {
@@ -71,16 +72,24 @@ function App() {
             component={CourseListing}
             options={() => options} // use for navigation animations of CourseListiing
             sharedElements={(route, otherRoute, showing) => {
-              const { category, sharedElementPrefix } = route.params;
-              return [
-                {
-                  id: `${sharedElementPrefix}-CategoryCard-Bg-${category?.id}`
-                },
-                {
-                  id: `${sharedElementPrefix}-CategoryCard-Title-${category?.id}`
-                }
-              ];
+              if (otherRoute.name === "Dashboard") { // only need when come back to the Dashboard, No need to when we go CourseDetails
+                const { category, sharedElementPrefix } = route.params;
+                return [
+                  {
+                    id: `${sharedElementPrefix}-CategoryCard-Bg-${category?.id}`
+                  },
+                  {
+                    id: `${sharedElementPrefix}-CategoryCard-Title-${category?.id}`
+                  }
+                ];
+              }
+
             }}
+          />
+
+          <Stack.Screen
+            name="CourseDetails"
+            component={CourseDetails}
           />
         </Stack.Navigator>
       </NavigationContainer>
