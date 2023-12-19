@@ -5,7 +5,8 @@ import {
     Animated,
     Keyboard
 } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
+import Video from 'react-native-video';
 
 import {
     IconButton,
@@ -23,6 +24,8 @@ import {
 const CourseDetails = ({ navigation, route }) => {
 
     const { selectedCourse } = route.params;
+
+    const [playVideo, setPlayVideo] = useState(false);
 
     function renderHeaderComponents() {
         return (
@@ -86,21 +89,40 @@ const CourseDetails = ({ navigation, route }) => {
     }
 
     function renderHeader() {
-        return (
-            <View
-                style={{
-                    position: 'absolute',
-                    top: SIZES.height > 800 ? 10 : 5,
-                    left: 0,
-                    right: 0,
-                    flexDirection: 'row',
-                    paddingHorizontal: SIZES.padding,
-                    zIndex: 1
-                }}
-            >
-                {renderHeaderComponents()}
-            </View>
-        )
+        if (playVideo) {
+            return (
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        paddingHorizontal: SIZES.radius,
+                        paddingBottom: SIZES.base,
+                        height: 55,
+                        backgroundColor: COLORS.black,
+                        alignItems: 'flex-end'
+
+                    }}
+                >
+                    {renderHeaderComponents()}
+                </View>
+            )
+        } else {
+            return (
+                <View
+                    style={{
+                        position: 'absolute',
+                        top: SIZES.height > 800 ? 10 : 5,
+                        left: 0,
+                        right: 0,
+                        flexDirection: 'row',
+                        paddingHorizontal: SIZES.padding,
+                        zIndex: 1
+                    }}
+                >
+                    {renderHeaderComponents()}
+                </View>
+            )
+        }
+
     }
 
     function renderVideoSection() {
@@ -121,7 +143,6 @@ const CourseDetails = ({ navigation, route }) => {
                         justifyContent: 'center'
                     }}
                 >
-
                     {/* Play Button */}
                     <IconButton
                         icon={icons.play}
@@ -139,12 +160,31 @@ const CourseDetails = ({ navigation, route }) => {
                             borderRadius: 30,
                             // marginTop: SIZES.padding
                         }}
+                        onPress={() => setPlayVideo(true)}
                     />
-
                 </ImageBackground>
+
+                {playVideo &&
+
+                    <Video source={{ uri: "https://www.w3schools.com/tags/mov_bbb.mp4" }}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            backgroundColor: COLORS.black
+                        }}
+                        controls={true}
+                        resizeMode="contain"
+                        onLoad={() => console.log('video loaded!')}
+                        onError={e => console.log('video load failed!', e)}
+                    />
+                }
             </View>
         )
     }
+
     return (
         <View
             style={{
