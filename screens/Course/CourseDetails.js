@@ -5,7 +5,7 @@ import {
     Animated,
     Keyboard
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Video from 'react-native-video';
 
 import {
@@ -26,6 +26,10 @@ const CourseDetails = ({ navigation, route }) => {
     const { selectedCourse } = route.params;
 
     const [playVideo, setPlayVideo] = useState(false);
+
+    // use that for the content section
+    const flatListRef = useRef();
+    const scrollX = useRef(new Animated.Value(0)).current
 
     function renderHeaderComponents() {
         return (
@@ -185,6 +189,60 @@ const CourseDetails = ({ navigation, route }) => {
         )
     }
 
+    function renderContect() {
+        return (
+            <View
+                style={{
+                    flex: 1
+                }}
+            >
+                {/* Tabs */}
+                <View
+                    style={{
+                        height: 60,
+                        backgroundColor: 'red'
+                    }}
+                >
+
+                </View>
+
+                {/* Line Divider */}
+                <LineDivider lineStyle={{ backgroundColor: COLORS.gray20 }} />
+
+                {/* Content */}
+                <Animated.FlatList
+                    ref={flatListRef}
+                    horizontal
+                    pagingEnabled
+                    snapToAlignment="center"
+                    snapToInterval={SIZES.width}
+                    decelerationRate="fast"
+                    keyboardDismissMode="on-drag"
+                    showsHorizontalScrollIndicator={false}
+                    data={constants.course_details_tabs}
+                    keyExtractor={item => `CourseDetailTabs-${item.id}`}
+                    onScroll={Animated.event([
+                        { nativeEvent: { contentOffset: { x: scrollX } } }
+                    ], {
+                        useNativeDriver: false
+                    })}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <View
+                                style={{
+                                    width: SIZES.width
+                                }}
+                            >
+
+
+                            </View>
+                        )
+                    }}
+                />
+            </View>
+        )
+    }
+
     return (
         <View
             style={{
@@ -198,6 +256,9 @@ const CourseDetails = ({ navigation, route }) => {
 
             {/* Video */}
             {renderVideoSection()}
+
+            {/* Content */}
+            {renderContect()}
         </View>
     )
 }
