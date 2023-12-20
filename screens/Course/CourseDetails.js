@@ -233,7 +233,7 @@ const CourseDetails = ({ navigation, route }) => {
                                     width: SIZES.width
                                 }}
                             >
-
+                                {/* Hello */}
 
                             </View>
                         )
