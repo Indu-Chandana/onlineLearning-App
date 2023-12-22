@@ -235,6 +235,7 @@ const CourseDetails = ({ navigation, route }) => {
                             >
                                 {/* Hello */}
                                 {/* Hello */}
+                                {/* Hello */}
                             </View>
                         )
                     }}
