@@ -269,6 +269,7 @@ const CourseDetails = ({ navigation, route }) => {
                             justifyContent: 'center',
                             borderRadius: 30,
                             // marginTop: SIZES.padding
+                            //
                         }}
                         onPress={() => setPlayVideo(true)}
                     />
