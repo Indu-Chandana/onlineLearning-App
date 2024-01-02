@@ -5,7 +5,7 @@ import {
     Animated,
     Keyboard
 } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Video from 'react-native-video';
 
 import {
@@ -21,6 +21,107 @@ import {
     dummyData
 } from "../../constants"
 
+// we need to add the ref property each and every course detail tab.
+const course_details_tabs = constants.course_details_tabs.map((course_details_tab) => ({
+    ...course_details_tab,
+    ref: React.createRef()
+}))
+
+const TabIndicator = ({ measureLayout, scrollX }) => {
+
+    const inputRange = course_details_tabs.map((_, i) => i * SIZES.width)
+    const tabIndicatorWidth = scrollX.interpolate({
+        inputRange,
+        outputRange: measureLayout.map(measure => measure.width)
+    })
+
+    // andimate position of the tab indicator
+    const translateX = scrollX.interpolate({
+        inputRange,
+        outputRange: measureLayout.map(measure => measure.x)
+    })
+
+    return (
+        <Animated.View
+            style={{
+                position: 'absolute',
+                bottom: 0,
+                height: 4,
+                width: tabIndicatorWidth,
+                borderRadius: SIZES.radius,
+                backgroundColor: COLORS.primary,
+                transform: [{
+                    translateX
+                }]
+            }}
+        />
+    )
+
+}
+
+const Tabs = ({ scrollX, onTabPress }) => {
+
+    const [measureLayout, setMeasureLayout] = useState([]); // use of ref property I can get width and x positions.
+    const containerRef = useRef();
+
+    useEffect(() => {
+        let ml = []
+
+        course_details_tabs.forEach(course_details_tab => {
+            course_details_tab?.ref?.current?.measureLayout(
+                containerRef.current,
+                (x, y, width, height) => {
+                    ml.push({
+                        x, y, width, height
+                    })
+
+                    if (ml.length === course_details_tabs.length) {
+                        setMeasureLayout(ml)
+                    }
+                }
+            )
+        })
+    }, [containerRef.current])
+
+    return (
+        <View
+            ref={containerRef}
+            style={{
+                flex: 1,
+                flexDirection: 'row'
+            }}
+        >
+            {/* Tab Indicator */}
+            {measureLayout.length > 0 && <TabIndicator measureLayout={measureLayout} scrollX={scrollX} />}
+
+            {/* Tabs */}
+            {course_details_tabs.map((item, index) => {
+                return (
+                    <TouchableOpacity
+                        key={`Tab-${index}`}
+                        ref={item.ref} // need to get position (lengthor width)
+                        style={{
+                            flex: 1,
+                            paddingHorizontal: 15,
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+
+                        onPress={() => onTabPress(index)}
+                    >
+                        <Text
+                            style={{
+                                ...FONTS.h3,
+                                fontSize: SIZES.height > 800 ? 16 : 15
+                            }}
+                        >{item.label}</Text>
+                    </TouchableOpacity>
+                )
+            })}
+        </View>
+    )
+}
+
 const CourseDetails = ({ navigation, route }) => {
 
     const { selectedCourse } = route.params;
@@ -31,6 +132,11 @@ const CourseDetails = ({ navigation, route }) => {
     const flatListRef = useRef();
     const scrollX = useRef(new Animated.Value(0)).current
 
+    const onTabPress = useCallback(tabIndex => {
+        flatListRef?.current?.scrollToOffset({
+            offset: tabIndex * SIZES.width
+        })
+    })
     function renderHeaderComponents() {
         return (
             <>
@@ -163,6 +269,7 @@ const CourseDetails = ({ navigation, route }) => {
                             justifyContent: 'center',
                             borderRadius: 30,
                             // marginTop: SIZES.padding
+                            //
                         }}
                         onPress={() => setPlayVideo(true)}
                     />
@@ -200,10 +307,10 @@ const CourseDetails = ({ navigation, route }) => {
                 <View
                     style={{
                         height: 60,
-                        backgroundColor: 'red'
                     }}
                 >
-
+                    {/* // we can animate the tab indicator */}
+                    <Tabs scrollX={scrollX} onTabPress={onTabPress} />
                 </View>
 
                 {/* Line Divider */}
@@ -233,9 +340,9 @@ const CourseDetails = ({ navigation, route }) => {
                                     width: SIZES.width
                                 }}
                             >
-                                {/* Hello */}
-                                {/* Hello */}
-                                {/* Hello */}
+                                {index == 0 && <Text>Chapters</Text>}
+                                {index == 1 && <Text>Files</Text>}
+                                {index == 2 && <Text>Discussions</Text>}
                             </View>
                         )
                     }}
