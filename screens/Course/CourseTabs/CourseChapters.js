@@ -67,15 +67,51 @@ const CourseChapters = () => {
             <View>
                 {dummyData?.course_details?.videos.map((item, index) => {
                     return (
-                        <View 
-                        key={`Vides-${index}`}
-                        style={{
-                            alignItems: 'center',
-                            height: 70,
-                            backgroundColor: item?.is_playing ? COLORS.additionalColor11 :null
-                        }}
+                        <View
+                            key={`Vides-${index}`}
+                            style={{
+                                alignItems: 'center',
+                                height: 70,
+                                backgroundColor: item?.is_playing ? COLORS.additionalColor11 : null
+                            }}
                         >
-                          <View style={{flexDirection: 'row', paddingHorizontal: SIZES.padding, alignItems: 'center', height: 70}}><Text>hello</Text></View>
+                            <View style={{ flexDirection: 'row', paddingHorizontal: SIZES.padding, alignItems: 'center', height: 70 }}>
+                                {/* Icon */}
+                                <Image
+                                    source={item?.is_complete ? icons.completed : item?.is_playing ? icons.play_1 : icons.lock}
+                                    style={{
+                                        width: 40,
+                                        height: 40
+                                    }}
+                                />
+
+                                {/* Titlle & Duration */}
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        marginLeft: SIZES.radius
+                                    }}
+                                >
+                                    <Text style={{ ...FONTS.h3 }}>{item.title}</Text>
+                                    <Text style={{ color: COLORS.gray30, ...FONTS.body4 }}>{item.duration}</Text>
+                                </View>
+
+                                {/* Size & Status */}
+                                <View style={{ flexDirection: 'row' }}>
+                                    {/* Size */}
+                                    <Text style={{ color: COLORS.gray30, ...FONTS.body4 }}>
+                                        {item?.size}
+                                    </Text>
+
+                                    {/* Status */}
+                                    <Image
+                                        source={item?.is_downloaded ? icons.completed : icons.download}
+                                        style={{
+                                            marginLeft: SIZES.base, width: 25, height: 25, tintColor: item?.is_lock ? COLORS.additionalColor4 : null
+                                        }}
+                                    />
+                                </View>
+                            </View>
                         </View>
                     )
                 })}
