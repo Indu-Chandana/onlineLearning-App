@@ -112,9 +112,54 @@ const CourseChapters = () => {
                                     />
                                 </View>
                             </View>
+
+                            {/* Progress Bar */}
+                            {item.is_playing &&
+                                <View
+                                    style={{
+                                        position: 'absolute',
+                                        backgroundColor: COLORS.primary,
+                                        bottom: 0,
+                                        left: 0,
+                                        height: 5,
+                                        width: item?.progress
+                                    }}
+                                />
+                            }
                         </View>
                     )
                 })}
+            </View>
+        )
+    }
+
+    function renderPopularCourses() {
+        return (
+            <View style={{ marginTop: SIZES.padding }}>
+                {/* section Header */}
+                <View style={{ flexDirection: 'row', paddingHorizontal: SIZES.padding }}>
+                    <Text style={{ flex: 1, ...FONTS.h2 }}>Popular Courses</Text>
+                    <TextButton
+                        contentContainerStyle={{ width: 80, borderRadius: 30, backgroundColor: COLORS.primary }}
+                        label="See All"
+                    />
+                </View>
+
+                {/* Popular Courses List */}
+                <FlatList
+                    data={dummyData.courses_list_2}
+                    listkey="PopularCourses"
+                    scrollEnabled={false}
+                    keyExtractor={item => `PopularCourses-${item.id}`}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ marginTop: SIZES.radius, paddingHorizontal: SIZES.padding }}
+                    renderItem={({ item, index }) => (
+                        <HorizontalCourseCard course={item} containerStyle={{ marginVertical: SIZES.padding, marginTop: index === 0 ? SIZES.radius : SIZES.padding }} />
+                    )}
+                    ItemSeparatorComponent={() => (
+                        <LineDivider />
+                    )}
+                />
             </View>
         )
     }
@@ -131,6 +176,7 @@ const CourseChapters = () => {
             {renderChapter()}
 
             {/* Popular Courses */}
+            {renderPopularCourses()}
         </ScrollView>
     )
 }
