@@ -22,6 +22,7 @@ import {
 } from "../../constants"
 
 import CourseChapters from './CourseTabs/CourseChapters'
+import CourseFiles from './CourseTabs/CourseFiles'
 
 // we need to add the ref property each and every course detail tab.
 const course_details_tabs = constants.course_details_tabs.map((course_details_tab) => ({
@@ -343,8 +344,8 @@ const CourseDetails = ({ navigation, route }) => {
                                     width: SIZES.width
                                 }}
                             >
-                                {index == 0 && <CourseChapters/>}
-                                {index == 1 && <Text>Files</Text>}
+                                {index == 0 && <CourseChapters />}
+                                {index == 1 && <CourseFiles />}
                                 {index == 2 && <Text>Discussions</Text>}
                             </View>
                         )
