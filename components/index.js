@@ -10,10 +10,11 @@ import ProfileValue from './ProfileValue'
 import ProfileRadioButton from './ProfileRadioButton'
 import FilterModal from './FilterModal'
 import TwoPointSlider from "./TwoPointSlider";
+import IconLabelButton from "./IconLabelButton"
 
 
 export {
     FilterModal, IconButton, TextButton, VerticalCourseCard,
     IconLabel, LineDivider, CategoryCard, HorizontalCourseCard, ProgressBar,
-    ProfileValue, ProfileRadioButton, TwoPointSlider
+    ProfileValue, ProfileRadioButton, TwoPointSlider, IconLabelButton
 }
