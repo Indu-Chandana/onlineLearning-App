@@ -3,7 +3,8 @@ import {
     View,
     Text,
     Image,
-    TextInput
+    TextInput,
+    SafeAreaView
 } from 'react-native';
 import { Shadow } from "react-native-shadow-2"
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler"
@@ -143,7 +144,7 @@ const Search = () => {
             <Animated.View
                 style={[{
                     position: 'absolute',
-                    top: 25,
+                    top: 55,
                     left: 0,
                     right: 0,
                     paddingHorizontal: SIZES.padding,
@@ -197,7 +198,7 @@ const Search = () => {
             <Animated.ScrollView
                 ref={scrollViewRef}
                 contentContainerStyle={{
-                    marginTop: 80,
+                    marginTop: 100,
                     paddingBottom: 300,
                 }}
                 showsVerticalScrollIndicator={false}

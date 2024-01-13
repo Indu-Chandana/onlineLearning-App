@@ -4,7 +4,7 @@ import {
     Text,
     ImageBackground, // using this we can eble to work on the top of image. 
     Image,
-    ScrollView
+    ScrollView, SafeAreaView
 } from 'react-native';
 
 // we need to create horizontal scrolling feature with that
@@ -64,26 +64,28 @@ const Home = () => {
 
     function renderHeader() {
         return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    marginTop: 10,
-                    marginBottom: 10,
-                    paddingHorizontal: SIZES.padding,
-                    alignItems: 'center'
-                }}>
-                {/* Greetion */}
-                <View style={{ flex: 1 }}>
-                    <Text style={{ ...FONTS.h2 }}>Hello, Programmers!</Text>
-                    <Text style={{ color: COLORS.gray50, ...FONTS.body3 }}>Satuday, 19th Aug 2023</Text>
-                </View>
+            <SafeAreaView>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        marginTop: 10,
+                        marginBottom: 10,
+                        paddingHorizontal: SIZES.padding,
+                        alignItems: 'center'
+                    }}>
+                    {/* Greetion */}
+                    <View style={{ flex: 1 }}>
+                        <Text style={{ ...FONTS.h2 }}>Hello, Programmers!</Text>
+                        <Text style={{ color: COLORS.gray50, ...FONTS.body3 }}>Satuday, 19th Aug 2023</Text>
+                    </View>
 
-                {/* Notification */}
-                <IconButton
-                    icon={icons.notification}
-                    iconStyle={{ tintColor: COLORS.black }}
-                />
-            </View>
+                    {/* Notification */}
+                    <IconButton
+                        icon={icons.notification}
+                        iconStyle={{ tintColor: COLORS.black }}
+                    />
+                </View>
+            </SafeAreaView>
         )
     }
 

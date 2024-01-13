@@ -6,7 +6,7 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    StyleSheet
+    StyleSheet, SafeAreaView
 } from 'react-native';
 import { connect } from "react-redux"
 import { toggleTheme } from "../../stores/themeActions";
@@ -38,30 +38,32 @@ const Profile = ({ appTheme, toggleTheme }) => {
 
     function renderHeader() {
         return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    marginTop: 20,
-                    paddingHorizontal: SIZES.padding,
-                    justifyContent: 'space-between'
-                }}
-            >
-                <Text
+            <SafeAreaView>
+                <View
                     style={{
-                        ...FONTS.h1,
-                        color: appTheme?.textColor
-                    }}>
-                    Profile
-                </Text>
-
-                <IconButton
-                    icon={icons.sun}
-                    iconStyle={{
-                        tintColor: appTheme?.tintColor
+                        flexDirection: 'row',
+                        marginTop: 20,
+                        paddingHorizontal: SIZES.padding,
+                        justifyContent: 'space-between'
                     }}
-                    onPress={() => toggleThemeHandler()}
-                />
-            </View>
+                >
+                    <Text
+                        style={{
+                            ...FONTS.h1,
+                            color: appTheme?.textColor
+                        }}>
+                        Profile
+                    </Text>
+
+                    <IconButton
+                        icon={icons.sun}
+                        iconStyle={{
+                            tintColor: appTheme?.tintColor
+                        }}
+                        onPress={() => toggleThemeHandler()}
+                    />
+                </View>
+            </SafeAreaView>
         )
     }
 
