@@ -23,6 +23,9 @@ const CommentSection = ({ commentItem, CommentOption, replies }) => {
 
                 {/* Comment Option */}
                 {CommentOption}
+
+                {/* Replies Section */}
+                {replies}
             </View>
 
 
@@ -49,12 +52,49 @@ const CourseDiscussions = () => {
                                     borderBottomWidth: 1, borderColor: COLORS.gray20
                                 }}>
                                     {/* Comment */}
-                                    <IconLabelButton containerStyle={{ width: 100, height: 40, backgroundColor: 'red' }} />
+                                    <IconLabelButton icon={icons.comment} label={item?.no_of_comments}
+                                        iconStyle={{ tintColor: COLORS.black }}
+                                        labelStyle={{ marginLeft: 3, color: COLORS.black, ...FONTS.h4 }}
+                                    />
 
                                     {/* Like */}
+                                    <IconLabelButton icon={icons.heart} label={item?.no_of_likes}
+                                        containerStyle={{ marginLeft: SIZES.radius }}
+                                        labelStyle={{ marginLeft: 3, color: COLORS.black, ...FONTS.h4 }}
+                                    />
 
                                     {/* Date */}
+                                    <Text style={{ flex: 1, textAlign: 'right', ...FONTS.h4 }}>{item?.posted_on}</Text>
                                 </View>
+                            }
+                            replies={
+                                <FlatList
+                                    data={item?.replies}
+                                    scrollEnabled={false}
+                                    keyExtractor={item => `Discussions-replies-${item.id}`}
+                                    renderItem={({ item, index }) => (
+                                        <CommentSection
+                                            commentItem={item}
+                                            CommentOption={
+                                                <View style={{
+                                                    flexDirection: 'row', marginTop: SIZES.radius, paddingVertical: SIZES.base,
+                                                    borderTopWidth: 1, borderBottomWidth: 1, borderColor: COLORS.gray20
+                                                }}>
+                                                    {/* Reply */}
+                                                    <IconLabelButton icon={icons.reply} label="Reply" labelStyle={{ marginLeft: 5, color: COLORS.black, ...FONTS.h4 }} />
+
+                                                    {/* Like */}
+                                                    <IconLabelButton icon={icons.heart_off} label="Like" containerStyle={{ marginLeft: SIZES.radius }}
+                                                        labelStyle={{ marginLeft: 3, color: COLORS.black, ...FONTS.h4 }}
+                                                    />
+
+                                                    {/* Date */}
+                                                    <Text style={{ flex: 1, textAlign: 'right', ...FONTS.h4 }}>{item?.posted_on}</Text>
+                                                </View>
+                                            }
+                                        />
+                                    )}
+                                />
                             }
                         />
                     )}
