@@ -3,7 +3,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Animated,
-    Keyboard
+    Keyboard, SafeAreaView
 } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Video from 'react-native-video';
@@ -225,7 +225,7 @@ const CourseDetails = ({ navigation, route }) => {
                 <View
                     style={{
                         position: 'absolute',
-                        top: SIZES.height > 800 ? 10 : 5,
+                        top: SIZES.height > 800 ? 70 : 5,
                         left: 0,
                         right: 0,
                         flexDirection: 'row',
@@ -357,7 +357,7 @@ const CourseDetails = ({ navigation, route }) => {
     }
 
     return (
-        <View
+        <SafeAreaView
             style={{
                 flex: 1,
                 backgroundColor: COLORS.white
@@ -372,7 +372,7 @@ const CourseDetails = ({ navigation, route }) => {
 
             {/* Content */}
             {renderContect()}
-        </View>
+        </SafeAreaView>
     )
 }
 
