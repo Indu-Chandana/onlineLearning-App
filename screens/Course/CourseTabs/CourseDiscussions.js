@@ -109,7 +109,7 @@ const CourseDiscussions = () => {
             {renderDiscussions()}
 
             {/* Footer */}
-            {/* hello  hello */}
+            {/* hello  hello hello hello */}
         </View>
     )
 }
