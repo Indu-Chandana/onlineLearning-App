@@ -111,7 +111,10 @@ const Tabs = ({ scrollX, onTabPress }) => {
                             justifyContent: 'center'
                         }}
 
-                        onPress={() => onTabPress(index)}
+                        onPress={() => {
+                            Keyboard.dismiss() // when move from the Discussions tab need to hide the keyboard.
+                            onTabPress(index)
+                        }}
                     >
                         <Text
                             style={{
