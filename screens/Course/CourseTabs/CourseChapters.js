@@ -175,7 +175,7 @@ const CourseChapters = () => {
             {/* Chapters */}
             {renderChapter()}
 
-            {/* Popular Courses */}
+            {/* Popular Courses test*/}
             {renderPopularCourses()}
         </ScrollView>
     )
