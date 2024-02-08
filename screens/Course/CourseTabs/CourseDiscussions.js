@@ -21,7 +21,7 @@ const CommentSection = ({ commentItem, CommentOption, replies }) => {
                 {/* Comment */}
                 <Text style={{ ...FONTS.body4 }}>{commentItem?.comment}</Text>
 
-                {/* Comment Option */}
+                {/* Comment Option  */}
                 {CommentOption}
 
                 {/* Replies Section */}
