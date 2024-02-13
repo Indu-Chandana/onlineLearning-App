@@ -24,7 +24,7 @@ const CommentSection = ({ commentItem, CommentOption, replies }) => {
                 {/* Comment Option  */}
                 {CommentOption}
 
-                {/* Replies Section */}
+                {/* Replies Section  dd*/}
                 {replies}
             </View>
 
