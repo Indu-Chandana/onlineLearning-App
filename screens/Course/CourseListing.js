@@ -334,7 +334,7 @@ const CourseListing = ({ navigation, route }) => {
 
             {/* Render Header */}
             {renderHeader()}
-            z
+
             {/* Filter Modal tt*/}
             <FilterModal
                 filterModalSharedValue1={filterModalSharedValue1}
